@@ -3,8 +3,12 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button.jsx';
 import { FileText, ShieldAlert, MessageSquareText, ArrowRight } from 'lucide-react';
+import { useLangStore } from '../store/langStore.js';
+import { translations } from '../utils/translations.js';
 
 const LandingPage = () => {
+  const { language } = useLangStore();
+  const t = translations[language];
   return (
     <div className="flex flex-col items-center justify-center pt-24 pb-16">
       <motion.div 
@@ -14,25 +18,25 @@ const LandingPage = () => {
         className="max-w-4xl text-center"
       >
         <span className="px-4 py-2 rounded-full bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 text-sm font-semibold mb-6 inline-block border border-brand-200 dark:border-brand-800">
-          Next-Gen Legal Platform
+          {t.hero.badge}
         </span>
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8 leading-tight">
-          AI-Powered Legal Contracts <br />
-          <span className="gradient-text">Made Smart & Secure</span>
+          {t.hero.title1} <br />
+          <span className="gradient-text">{t.hero.title2}</span>
         </h1>
         <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-          Instantly generate rock-solid legal agreements. Detect hidden risks and mitigate them with a single click. Compliant, fast, and completely automated.
+          {t.hero.description}
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link to="/dashboard">
             <Button size="lg" className="w-full sm:w-auto group">
-              Generate Contract
+              {t.hero.generateBtn}
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
             </Button>
           </Link>
           <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-            Try Demo
+            {t.hero.demoBtn}
           </Button>
         </div>
       </motion.div>
@@ -45,18 +49,18 @@ const LandingPage = () => {
       >
         <FeatureCard 
           icon={<FileText className="text-brand-500" size={32} />}
-          title="Instant Generation"
-          description="Draft NDAs, employment agreements, and more in seconds tailored to any jurisdiction."
+          title={t.features.feat1Title}
+          description={t.features.feat1Desc}
         />
         <FeatureCard 
           icon={<ShieldAlert className="text-blue-500" size={32} />}
-          title="Risk Detection"
-          description="Identify ambiguous language, missing liabilities, and loopholes instantly before you sign."
+          title={t.features.feat2Title}
+          description={t.features.feat2Desc}
         />
         <FeatureCard 
           icon={<MessageSquareText className="text-purple-500" size={32} />}
-          title="AI Legal Assistant"
-          description="Have questions? Our built-in assistant explains complex clauses in plain English."
+          title={t.features.feat3Title}
+          description={t.features.feat3Desc}
         />
       </motion.div>
     </div>

@@ -3,11 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/Button.jsx';
 import { useContractStore } from '../store/contractStore.js';
+import { useLangStore } from '../store/langStore.js';
+import { translations } from '../utils/translations.js';
 import { Layers, MapPin, AlignLeft, Sparkles } from 'lucide-react';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const setContractData = useContractStore((state) => state.setContractData);
+  const { language } = useLangStore();
+  const t = translations[language].dash;
   
   const [formData, setFormData] = useState({
     type: 'NDA',
@@ -48,16 +52,16 @@ const Dashboard = () => {
     >
       <div className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-          Draft a New Contract
+          {t.title}
         </h1>
-        <p className="text-slate-600 dark:text-slate-400">Fill in the details below and let AI handle the heavy lifting.</p>
+        <p className="text-slate-600 dark:text-slate-400">{t.subtitle}</p>
       </div>
 
       <div className="glass rounded-3xl p-8 md:p-10 border shadow-2xl relative overflow-hidden">
         {isGenerating && (
           <div className="absolute inset-0 bg-white/60 dark:bg-dark-900/60 backdrop-blur-sm z-10 flex flex-col items-center justify-center">
             <div className="w-16 h-16 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p className="text-lg font-semibold text-slate-900 dark:text-white animate-pulse">Drafting legally binding clauses...</p>
+            <p className="text-lg font-semibold text-slate-900 dark:text-white animate-pulse">{t.loading}</p>
           </div>
         )}
 
@@ -65,7 +69,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                <Layers size={16} className="mr-2 text-brand-500" /> Contract Type
+                <Layers size={16} className="mr-2 text-brand-500" /> {t.typeLabel}
               </label>
               <select 
                 value={formData.type}
@@ -112,7 +116,7 @@ const Dashboard = () => {
 
             <div className="space-y-2">
               <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                <MapPin size={16} className="mr-2 text-blue-500" /> Jurisdiction
+                <MapPin size={16} className="mr-2 text-blue-500" /> {t.jurisdictionLabel}
               </label>
               <select 
                 value={formData.jurisdiction}
@@ -130,12 +134,12 @@ const Dashboard = () => {
 
           <div className="space-y-2">
             <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-              <AlignLeft size={16} className="mr-2 text-purple-500" /> Contract Details & Scope
+              <AlignLeft size={16} className="mr-2 text-purple-500" /> {t.detailsLabel}
             </label>
             <textarea 
               value={formData.customDetails}
               onChange={(e) => setFormData({...formData, customDetails: e.target.value})}
-              placeholder="E.g., The contract is for a 6-month software development project. Payment of $5000 is due upon completion."
+              placeholder={t.detailsPlaceholder}
               className="w-full h-32 p-4 rounded-xl border border-slate-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-purple-500 outline-none transition resize-none"
               required
             ></textarea>
@@ -143,11 +147,11 @@ const Dashboard = () => {
 
           <Button type="submit" size="lg" className="w-full mt-4 !h-14">
             <Sparkles size={20} className="mr-2" />
-            Generate Smart Contract
+            {t.generateBtn}
           </Button>
 
           <p className="text-xs text-center text-slate-500 dark:text-slate-400 mt-4">
-            Disclaimer: This AI tool provides drafts for convenience and does not replace professional legal advice.
+            {t.disclaimer}
           </p>
         </form>
       </div>
